@@ -1,0 +1,33 @@
+.container {
+    margin: 20px;
+
+    .filters {
+        display: flex;
+
+        mat-form-field {
+            display: inline-block;
+            width: 300px;
+            margin-right: 20px;
+        }
+
+        .buttons {
+            display: inline-block;
+
+            button {
+                margin-left: 15px;
+            }
+        }
+    }
+
+    mat-table {
+        margin: auto;
+    }
+
+    .buttons {
+        text-align: right;
+    }
+}
+
+button {
+    width: 125px;
+}

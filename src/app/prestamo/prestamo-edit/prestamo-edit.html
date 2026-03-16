@@ -1,0 +1,60 @@
+<div class="container">
+    @if (prestamo.id) {
+        <h1>Modificar prestamo</h1>
+    } @else {
+        <h1>Crear prestamo</h1>
+    }
+
+    <form [formGroup]="prestamoEditForm">
+        <mat-form-field>
+            <mat-label>Identificador</mat-label>
+            <input type="text" matInput placeholder="Identificador" [value]="prestamo.id" name="id" disabled>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Nombre del juego</mat-label>
+            <mat-select formControlName="gameName" required>
+                @for (game of games; track game.id) {
+                    <mat-option [value]="game.title">{{ game.title }}</mat-option>
+                }
+            </mat-select>
+            <mat-error>Debe seleccionar un juego</mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Nombre del cliente</mat-label>
+            <mat-select formControlName="clName" required>
+                @for (client of clients; track client.id) {
+                    <mat-option [value]="client.name">{{ client.name }}</mat-option>
+                }
+            </mat-select>
+            <mat-error>Debe seleccionar un cliente</mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Fecha de préstamo</mat-label>
+            <input formControlName="start" type="datetime-local" matInput name="startDate" required>
+            <mat-error>La fecha de préstamo no puede estar vacía</mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Fecha de devolución</mat-label>
+            <input formControlName="end" type="datetime-local" matInput name="endDate" required>
+            @if (prestamoEditForm.end.hasError('endDateShouldBeAfter')) {
+                <mat-error>La fecha de devolución no puede ser anterior a la de préstamo</mat-error>
+            }
+            @if (prestamoEditForm.end.hasError('maxLoanPeriod')) {
+                <mat-error>El periodo de préstamo no puede superar los 14 días</mat-error>
+            }
+        </mat-form-field>
+    </form>
+
+    @if (errorMessage) {
+        <div class="error-message" style="color: red; margin: 8px 0;">{{ errorMessage }}</div>
+    }
+
+    <div class="buttons">
+        <button mat-stroked-button (click)="onClose()">Cerrar</button>
+        <button mat-flat-button color="primary" (click)="onSave()">Guardar</button>
+    </div>
+</div>
